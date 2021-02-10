@@ -29,6 +29,8 @@ const char* serverName = SERVER_NAME;
 
 void setup() {
 
+  wifi_status_led_uninstall();
+  
 #ifdef LED
   pinMode(LED, OUTPUT);
 #endif
@@ -41,11 +43,11 @@ void setup() {
 
   stat(2);
 
-    IPAddress ip(192, 168 , 1 , 249);
-    IPAddress dns(8, 8, 8, 8);
-    IPAddress subnet(255, 255, 255, 0);
-    IPAddress gateway(192, 168, 1, 1);
-    WiFi.config(ip, dns, gateway, subnet);
+  IPAddress ip(192, 168 , 1 , 249);
+  IPAddress dns(8, 8, 8, 8);
+  IPAddress subnet(255, 255, 255, 0);
+  IPAddress gateway(192, 168, 1, 1);
+  WiFi.config(ip, dns, gateway, subnet);
 
   WiFi.macAddress(mac);
   Serial.begin(115200);  // Initialize serial
@@ -54,8 +56,8 @@ void setup() {
   Serial.println("");
   //Sets the chip ID
   Serial.print("ID: ");
-  if(mac[3] < 10) ID = "0";
-  ID = ID + String (mac[3],HEX) + String( + mac[4], HEX) + String(mac[5], HEX);
+  if (mac[3] < 10) ID = "0";
+  ID = ID + String (mac[3], HEX) + String( + mac[4], HEX) + String(mac[5], HEX);
   ID.toUpperCase();
   Serial.println(ID);
 
@@ -74,7 +76,7 @@ void loop() {
     String toPost = "{\"clientId\":\"2\",\"deviceId\":\"" + ID + "\",\"value\":\"" + "1" + "\"}";
 
     // Your Domain name with URL path or IP address with path
-    http.begin(serverName);
+    http.begin(client, serverName);
     http.addHeader("Content-Type", "application/json");
     int httpResponseCode = http.POST(toPost);
 
