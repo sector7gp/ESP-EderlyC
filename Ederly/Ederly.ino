@@ -1,7 +1,7 @@
 /*
    DEEPSLEEP
    En esta version se despierta desde sleep por medio del bang del attiny85 que lee interrupcion de HW.
-   Envia el json parametrizado
+   Envia el json parametrizado.
 */
 
 //#define LED 2
