@@ -23,7 +23,7 @@ WiFiClient  client;
 
 
 //Your Domain name with URL path or IP address with path
-const char* serverName = "http://data.sector7gp.com/save.php/";
+const char* serverName = SERVER_NAME;
 
 void setup() {
 
