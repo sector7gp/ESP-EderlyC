@@ -138,12 +138,12 @@ void setup() {
   wm.setConfigPortalTimeout(TIMEOUT);
   wm.setConnectTimeout(20);
 
-  //if pressed, starts the configPortal
-  delay(1000);
-  if ( digitalRead(CONFIG) == LOW) {
-    wm.startConfigPortal("", "agetech0");
-  }
-  wm.autoConnect("", "agetech0");
+    //if pressed, starts the configPortal
+    delay(1000);
+    if ( digitalRead(CONFIG) == LOW) {
+      wm.startConfigPortal("", "agetech0");
+    }
+    wm.autoConnect("", "agetech0");
 
   //if you get here you have connected to the WiFi
   Serial.println("connected...yeey :)");
@@ -189,8 +189,7 @@ void setup() {
 void loop() {
   byte tries = 0;
   HTTPClient http;
-  //ID = wm.getDefaultAPName();
-  ID = wm.getDefaultAPName().substring(4, 6);
+  ID = wm.getDefaultAPName().substring(wm.getDefaultAPName().indexOf("_") + 1, wm.getDefaultAPName().indexOf("_") + 7);
   String toPost = "{\"clientId\":\"2\",\"deviceId\":\"" + ID + "\",\"value\":\"" + "1" + "\"}";
 
   // Your Domain name with URL path or IP address with path
