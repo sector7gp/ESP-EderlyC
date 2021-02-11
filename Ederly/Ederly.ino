@@ -2,9 +2,9 @@
    RCv0.3
    DEEPSLEEP
    En esta version se despierta desde sleep por medio del bang del attiny85 que lee interrupcion de HW.
-   Envia el json parametrizado
-   TODO: config the Wifi manager
-   TOFIX: the mac address leading Zeros..
+   Enviar el json parametrizado (DONE)
+   TODO: config the Wifi manager (DONE)
+   TOFIX: the mac address leading Zeros.. (DONE)
 */
 
 #define CONFIG 2
@@ -21,9 +21,9 @@
 #endif
 
 //define your default values here, if there are different values in config.json, they are overwritten.
-char server[40] = "http://data.sector7gp.com/save.php";
+char server[60] = "http://data.sector7gp.com/save.php";
 char port[6]  = "80";
-char clientId[5] = "0";
+char clientId[5] = "1";
 
 
 //default custom static IP
@@ -119,7 +119,7 @@ void setup() {
   // After connecting, parameter.getValue() will get you the configured value
   // id/name placeholder/prompt default length
   WiFiManagerParameter custom_server("server", "URL", server, 40);
-  WiFiManagerParameter custom_port("port", "puerto", port, 6);
+  WiFiManagerParameter custom_port("port", "Puerto", port, 6);
   WiFiManagerParameter custom_clientId("id", "ID Cliente", clientId, 32);
 
   //add all your parameters here
@@ -138,12 +138,12 @@ void setup() {
   wm.setConfigPortalTimeout(TIMEOUT);
   wm.setConnectTimeout(20);
 
-    //if pressed, starts the configPortal
-    delay(1000);
-    if ( digitalRead(CONFIG) == LOW) {
-      wm.startConfigPortal("", "agetech0");
-    }
-    wm.autoConnect("", "agetech0");
+  //if pressed, starts the configPortal
+  delay(1000);
+  if ( digitalRead(CONFIG) == LOW) {
+    wm.startConfigPortal("", "agetech0");
+  }
+  wm.autoConnect("", "agetech0");
 
   //if you get here you have connected to the WiFi
   Serial.println("connected...yeey :)");
@@ -190,7 +190,7 @@ void loop() {
   byte tries = 0;
   HTTPClient http;
   ID = wm.getDefaultAPName().substring(wm.getDefaultAPName().indexOf("_") + 1, wm.getDefaultAPName().indexOf("_") + 7);
-  String toPost = "{\"clientId\":\"2\",\"deviceId\":\"" + ID + "\",\"value\":\"" + "1" + "\"}";
+  String toPost = "{\"clientId\":\"" + String(clientId) + "\",\"deviceId\":\"" + ID + "\",\"value\":\"" + "1" + "\"}";
 
   // Your Domain name with URL path or IP address with path
   Serial.println(server);
