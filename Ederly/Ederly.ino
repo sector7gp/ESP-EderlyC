@@ -98,7 +98,7 @@ void setupSpiffs() {
 }
 
 void setup() {
-
+  wm.setDebugOutput(false);
   WiFi.mode(WIFI_STA); // explicitly set mode, esp defaults to STA+AP
   //WiFi.macAddress(mac);
   Serial.begin(115200);  // Initialize serial
@@ -127,30 +127,27 @@ void setup() {
   wm.addParameter(&custom_port);
   wm.addParameter(&custom_clientId);
 
-//  //  //set static ip
-//  IPAddress _ip, _gw, _sn;
-//  _ip.fromString(static_ip);
-//  _gw.fromString(static_gw);
-//  _sn.fromString(static_sn);
-//  wm.setSTAStaticIPConfig(_ip, _gw, _sn);
+  //  //  //set static ip
+  //  IPAddress _ip, _gw, _sn;
+  //  _ip.fromString(static_ip);
+  //  _gw.fromString(static_gw);
+  //  _sn.fromString(static_sn);
+  //  wm.setSTAStaticIPConfig(_ip, _gw, _sn);
 
+  // set configportal timeout
   wm.setConfigPortalTimeout(TIMEOUT);
-  //wm.setConnectTimeout(30);
+  wm.setConnectTimeout(20);
+
   //if pressed, starts the configPortal
   delay(1000);
   if ( digitalRead(CONFIG) == LOW) {
-    // set configportal timeout
-
     wm.startConfigPortal("", "agetech0");
   }
   wm.autoConnect("", "agetech0");
 
-  //  if (wm.configPortalHasTimeout()) {
-  //    ESP.deepSleep(0);
-  //  }
-
   //if you get here you have connected to the WiFi
   Serial.println("connected...yeey :)");
+
   //read updated parameters
   strcpy(server, custom_server.getValue());
   strcpy(port, custom_port.getValue());
@@ -165,9 +162,9 @@ void setup() {
     json["port"]   = port;
     json["clientId"]   = clientId;
 
-//    json["ip"]          = WiFi.localIP().toString();
-//    json["gateway"]     = WiFi.gatewayIP().toString();
-//    json["subnet"]      = WiFi.subnetMask().toString();
+    //    json["ip"]          = WiFi.localIP().toString();
+    //    json["gateway"]     = WiFi.gatewayIP().toString();
+    //    json["subnet"]      = WiFi.subnetMask().toString();
 
     File configFile = SPIFFS.open("/config.json", "w");
     if (!configFile) {
