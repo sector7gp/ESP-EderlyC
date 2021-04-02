@@ -1,5 +1,5 @@
 /*
-   RCv0.3
+   RCv0.31
    DEEPSLEEP
    En esta version se despierta desde sleep por medio del bang del attiny85 que lee interrupcion de HW.
    Enviar el json parametrizado (DONE)
