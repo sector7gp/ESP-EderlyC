@@ -4,10 +4,13 @@
    En esta version se despierta desde sleep por medio del bang del attiny85 que lee interrupcion de HW.
    Enviar el json parametrizado (DONE)
    TODO: config the Wifi manager (DONE)
+         change logic, send 1 on detection 0 on stop
    TOFIX: the mac address leading Zeros.. (DONE)
+
 */
 
 #define CONFIG 2
+#define SENSOR 3
 #define DEBUG
 #define TIMEOUT 60
 #include <FS.h>
@@ -103,6 +106,8 @@ void setup() {
   //WiFi.macAddress(mac);
   Serial.begin(115200);  // Initialize serial
   Serial.println(ESP.getChipId());
+  pinMode(CONFIG, INPUT_PULLUP);
+  pinMode(SENSOR, INPUT_PULLUP);
   wifi_status_led_uninstall();
   //reset settings - for testing
   //wm.resetSettings();
@@ -189,8 +194,9 @@ void setup() {
 void loop() {
   byte tries = 0;
   HTTPClient http;
+  int sensor = digitalRead(SENSOR);
   ID = wm.getDefaultAPName().substring(wm.getDefaultAPName().indexOf("_") + 1, wm.getDefaultAPName().indexOf("_") + 7);
-  String toPost = "{\"clientId\":\"" + String(clientId) + "\",\"deviceId\":\"" + ID + "\",\"value\":\"" + "1" + "\"}";
+  String toPost = "{\"clientId\":\"" + String(clientId) + "\",\"deviceId\":\"" + ID + "\",\"value\":\"" + sensor + "\"}";
 
   // Your Domain name with URL path or IP address with path
   Serial.println(server);
