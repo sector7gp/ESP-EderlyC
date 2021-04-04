@@ -110,8 +110,7 @@ void setup() {
   pinMode(CONFIG, INPUT_PULLUP);
   pinMode(SENSOR, INPUT_PULLUP);
 
-  //read the sensor state
-  sensor = digitalRead(SENSOR);
+  
 
   wifi_status_led_uninstall();
   //reset settings - for testing
@@ -150,6 +149,10 @@ void setup() {
 
   //if pressed, starts the configPortal
   delay(1000);
+  
+  //read the sensor state
+  sensor = digitalRead(SENSOR);
+  
   if ( digitalRead(CONFIG) == LOW) {
     wm.startConfigPortal("", "agetech0");
   }

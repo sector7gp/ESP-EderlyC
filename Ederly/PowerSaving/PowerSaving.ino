@@ -8,7 +8,7 @@
 #define SIGNAL PB3
 #define RESET PB0
 #define BOTTON PB2
-#define SIGNAL_TIME 3000
+#define SIGNAL_TIME 60000
 #define RESET_TIME 150
 void setup() {
   // initialize digital pin LED_BUILTIN as an output.
@@ -28,6 +28,7 @@ void loop() {
     digitalWrite(RESET, LOW);
     delay(RESET_TIME);
     pinMode(RESET, INPUT);
+    delay(RESET_TIME*2);
 
     //sets the signal pin
     pinMode(SIGNAL, OUTPUT);
