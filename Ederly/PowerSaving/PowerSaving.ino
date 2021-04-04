@@ -1,12 +1,15 @@
-/* v0.2
- * Powersaving using hardware interrupts
- * sends the reset signal to the ESP when its reads a "1" on the sensor pin 
- */
- 
+/* v0.3
+   Powersaving using hardware interrupts
+   sends the reset signal to the ESP with the reading in PB2 (PCINT2) sensor pin
+*/
+
 #include <avr/sleep.h>
 #include <avr/interrupt.h>
-//#define POWERCONTROL PB3
+#define SIGNAL PB3
 #define RESET PB0
+#define BOTTON PB2
+#define SIGNAL_TIME 3000
+#define RESET_TIME 150
 void setup() {
   // initialize digital pin LED_BUILTIN as an output.
 
@@ -15,23 +18,26 @@ void setup() {
 // the loop function runs over and over again forever
 void loop() {
   sleep();
-  if (digitalRead(PB2)) {
-    //pinMode(POWERCONTROL, OUTPUT);
+  boolean sensor;
+  do  {
+    sensor = digitalRead(BOTTON);
+    //sets the pin and send the reset signal to the ESP
     pinMode(RESET, OUTPUT);
-
-    //digitalWrite(POWERCONTROL, HIGH);
-    //delay(100);
-
     digitalWrite(RESET, HIGH);
-    delay(50);
+    delay(RESET_TIME);
     digitalWrite(RESET, LOW);
-    delay(50);
+    delay(RESET_TIME);
     pinMode(RESET, INPUT);
-    //delay(3200);
-    //digitalWrite(POWERCONTROL, LOW);
 
+    //sets the signal pin
+    pinMode(SIGNAL, OUTPUT);
 
-  }
+    //send to the ESP the actual sensor value
+    digitalWrite(SIGNAL, sensor);
+    delay(SIGNAL_TIME);
+    pinMode(SIGNAL, INPUT);
+  } while (digitalRead(BOTTON) != sensor);
+
 }
 
 void sleep() {

@@ -1,5 +1,6 @@
 /*
    RCv0.32
+   Working with PowerSaving v0.3
    DEEPSLEEP
    En esta version se despierta desde sleep por medio del bang del attiny85 que lee interrupcion de HW.
    Enviar el json parametrizado (DONE)
@@ -41,7 +42,7 @@ byte mac[6];
 String ID = "";
 WiFiClient  client;
 WiFiManager wm;
-
+int sensor = 0;
 
 //callback notifying us of the need to save config
 void saveConfigCallback () {
@@ -108,6 +109,10 @@ void setup() {
   Serial.println(ESP.getChipId());
   pinMode(CONFIG, INPUT_PULLUP);
   pinMode(SENSOR, INPUT_PULLUP);
+
+  //read the sensor state
+  sensor = digitalRead(SENSOR);
+
   wifi_status_led_uninstall();
   //reset settings - for testing
   //wm.resetSettings();
@@ -194,7 +199,6 @@ void setup() {
 void loop() {
   byte tries = 0;
   HTTPClient http;
-  int sensor = digitalRead(SENSOR);
   ID = wm.getDefaultAPName().substring(wm.getDefaultAPName().indexOf("_") + 1, wm.getDefaultAPName().indexOf("_") + 7);
   String toPost = "{\"clientId\":\"" + String(clientId) + "\",\"deviceId\":\"" + ID + "\",\"value\":\"" + sensor + "\"}";
 
