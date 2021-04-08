@@ -11,7 +11,7 @@
 */
 
 #define CONFIG 2
-#define SENSOR 3
+#define SENSOR 0
 #define DEBUG
 #define TIMEOUT 60
 #include <FS.h>
@@ -110,7 +110,7 @@ void setup() {
   pinMode(CONFIG, INPUT_PULLUP);
   pinMode(SENSOR, INPUT_PULLUP);
 
-  
+
 
   wifi_status_led_uninstall();
   //reset settings - for testing
@@ -147,12 +147,12 @@ void setup() {
   wm.setConfigPortalTimeout(TIMEOUT);
   wm.setConnectTimeout(20);
 
-  //if pressed, starts the configPortal
-  delay(1000);
-  
   //read the sensor state
   sensor = digitalRead(SENSOR);
   
+  //if pressed, starts the configPortal
+  delay(1000);
+
   if ( digitalRead(CONFIG) == LOW) {
     wm.startConfigPortal("", "agetech0");
   }
