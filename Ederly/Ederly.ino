@@ -147,8 +147,7 @@ void setup() {
   wm.setConfigPortalTimeout(TIMEOUT);
   wm.setConnectTimeout(20);
 
-  //read the sensor state
-  sensor = digitalRead(SENSOR);
+  
   
   //if pressed, starts the configPortal
   delay(1000);
@@ -157,6 +156,9 @@ void setup() {
     wm.startConfigPortal("", "agetech0");
   }
   wm.autoConnect("", "agetech0");
+
+  //read the sensor state
+  sensor = digitalRead(SENSOR);
 
   //if you get here you have connected to the WiFi
   Serial.println("connected...yeey :)");

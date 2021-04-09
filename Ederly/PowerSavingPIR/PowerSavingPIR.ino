@@ -16,29 +16,29 @@ void setup() {
 
 void loop() {
   sleep();
+  do {
+    if (digitalRead(BOTTON) == 1) {
+      rst();
 
-  if (digitalRead(BOTTON) == 1) {
-    rst();
+      //send to the ESP the actual sensor value
+      pinMode(SIGNAL, OUTPUT);
+      digitalWrite(SIGNAL, HIGH);
+      delay(SIGNAL_TIME);
+      pinMode(SIGNAL, INPUT);
 
-    //send to the ESP the actual sensor value
-    pinMode(SIGNAL, OUTPUT);
-    digitalWrite(SIGNAL, HIGH);
-    delay(SIGNAL_TIME);
-    pinMode(SIGNAL, INPUT);
+      while (digitalRead(BOTTON) == 1) {
+      }
 
-    while (digitalRead(BOTTON) == 1) {
+      rst();
+      //send to the ESP the actual sensor value
+      pinMode(SIGNAL, OUTPUT);
+      digitalWrite(SIGNAL, LOW);
+      delay(SIGNAL_TIME);
+      pinMode(SIGNAL, INPUT);
+      delay(SCREEN_TIME);
     }
-
-    rst();
-    //send to the ESP the actual sensor value
-    pinMode(SIGNAL, OUTPUT);
-    digitalWrite(SIGNAL, LOW);
-    delay(SIGNAL_TIME);
-    pinMode(SIGNAL, INPUT);
-    delay(SCREEN_TIME);
-  }
+  } while (digitalRead(BOTTON) != 0);
 }
-
 
 
 void rst() {
