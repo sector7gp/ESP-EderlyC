@@ -27,7 +27,7 @@
 //define your default values here, if there are different values in config.json, they are overwritten.
 char server[60] = "http://66.97.42.151/devPG/save.php";
 char port[6]  = "80";
-char clientId[5] = "1";
+char clientId[5] = "81";
 
 
 //default custom static IP
@@ -110,7 +110,8 @@ void setup() {
   pinMode(CONFIG, INPUT_PULLUP);
   pinMode(SENSOR, INPUT_PULLUP);
 
-
+///////////////test baterias
+pinMode(16, WAKEUP_PULLUP);
 
   wifi_status_led_uninstall();
   //reset settings - for testing
@@ -205,7 +206,7 @@ void loop() {
   byte tries = 0;
   HTTPClient http;
   ID = wm.getDefaultAPName().substring(wm.getDefaultAPName().indexOf("_") + 1, wm.getDefaultAPName().indexOf("_") + 7);
-  String toPost = "{\"clientId\":\"" + String(clientId) + "\",\"deviceId\":\"" + ID + "\",\"value\":\"" + sensor + "\"}";
+  String toPost = "{\"clientId\":\"" + String(clientId) + "\",\"deviceId\":\"" + ID + "\",\"value\":\"" + millis() + "\"}";
 
   // Your Domain name with URL path or IP address with path
   Serial.println(server);
@@ -219,6 +220,8 @@ void loop() {
 #endif
 
   while ((httpResponseCode != 200) && (tries < 5)) {
+    //esta linea se agrega para testing, para saber si tuvo que realializar reenvios de dato por fallo de conexion
+    toPost = "{\"clientId\":\"" + String(clientId) + "\",\"deviceId\":\"" + ID + "\",\"value\":\"" + millis() + "\"}";
     httpResponseCode = http.POST(toPost);
     tries++;
     delay(2000);
@@ -237,5 +240,5 @@ void loop() {
   Serial.println("Deep Sleep");
 #endif
 
-  ESP.deepSleep(0);
+  ESP.deepSleep(10000000);
 }
