@@ -12,6 +12,7 @@
 #define RESET_TIME 150
 #define SCREEN_TIME 180000
 void setup() {
+  adc_disable();
 }
 
 void loop() {
@@ -58,7 +59,7 @@ void sleep() {
   GIMSK |= _BV(PCIE);                     // Enable Pin Change Interrupts
   PCMSK |= _BV(PCINT2);                   // Use PB2 as interrupt pin
 
-  ADCSRA &= ~_BV(ADEN);                   // ADC off
+  //ADCSRA &= ~_BV(ADEN);                   // ADC off
   set_sleep_mode(SLEEP_MODE_PWR_DOWN);    // replaces above statement
 
   sleep_enable();                         // Sets the Sleep Enable bit in the MCUCR Register (SE BIT)
@@ -68,7 +69,7 @@ void sleep() {
   cli();                                  // Disable interrupts
   PCMSK &= ~_BV(PCINT2);                  // Turn off PB2 as interrupt pin
   sleep_disable();                        // Clear SE bit
-  ADCSRA |= _BV(ADEN);                    // ADC on
+  //ADCSRA |= _BV(ADEN);                    // ADC on
 
   sei();                                  // Enable interrupts
 } // sleep

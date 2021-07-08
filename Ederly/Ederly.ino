@@ -9,8 +9,7 @@
    TOFIX: the mac address leading Zeros.. (DONE)
 
 */
-
-#define CONFIG 2
+#define CONFIG 12
 #define SENSOR 0
 #define DEBUG
 #define TIMEOUT 60
